@@ -1,0 +1,5 @@
+/cache
+*.png
+*.jpg
+
+implementation_plan.md
