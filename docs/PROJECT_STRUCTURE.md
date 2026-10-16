@@ -6,22 +6,23 @@ raft/
 ├── .gitignore              # Git ignore rules
 ├── README.md               # Project overview
 ├── requirements.txt        # Python dependencies
-├── .kiro/                  # Kiro IDE configuration
 ├── src/                    # Source code
 │   ├── __init__.py
 │   ├── algorithms/         # Optimization algorithms
 │   │   ├── __init__.py
-│   │   ├── pso.py         # PSO implementation
-│   │   └── pareto.py      # Pareto front operations
+│   │   ├── pso.py         # Single-objective DPSO implementation
+│   │   ├── dmo_pso.py     # Multi-objective DPSO implementation
+│   │   └── pareto.py      # Pareto front & archive operations
 │   ├── routing/           # Routing logic
 │   │   ├── __init__.py
-│   │   ├── graph.py       # Graph operations
-│   │   └── flood.py       # Flood constraint handling
+│   │   ├── graph.py       # Graph & objective evaluation operations
+│   │   └── flood.py       # Flood constraint & wading depth handling
 │   └── data/              # Data loading utilities
 │       ├── __init__.py
 │       └── loader.py      # Data file loaders
 ├── tests/                 # Unit and integration tests
 │   ├── __init__.py
+│   ├── test_toy_problem.py
 │   ├── test_pso.py
 │   ├── test_routing.py
 │   └── test_flood.py

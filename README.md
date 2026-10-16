@@ -1,13 +1,15 @@
-# Flood-Aware Disaster Relief Routing
+# Dynamic Routing of Relief Goods in Cavite Under Flood Constraints
 
-A dynamic routing system for disaster relief distribution in Cavite, Philippines, using a Discrete Multi-Objective Particle Swarm Optimization (DMO-PSO) algorithm with flood constraints.
+A web-based dynamic routing decision support system for disaster relief distribution in the coastal municipalities of Cavite, Philippines, using a Discrete Multi-Objective Particle Swarm Optimization (DMO-PSO) algorithm under simulated flood constraints.
 
 ## Overview
 
-This project implements a multi-objective optimization algorithm to determine optimal delivery routes for disaster relief, considering:
-- **Distance minimization** - Reduce travel time and fuel consumption
-- **Urgency maximization** - Prioritize critical deliveries based on need
-- **Flood constraints** - Account for road flooding and vehicle wading depth limits
+This project implements a multi-objective optimization algorithm to determine optimal delivery routes for disaster relief, simultaneously minimizing:
+- **Total transit distance ($f_1$)** — Reduce travel time and fuel consumption
+- **Urgency-weighted arrival latency ($f_2$)** — Penalize late delivery to high-urgency communities
+
+Subject to:
+- **Flood constraints** — Vehicle wading depth limits (Class A: 0.30m, B: 0.60m, C: 1.00m) enforced as hard-penalty constraints on flooded road segments
 
 ## Project Structure
 
@@ -81,9 +83,9 @@ The implementation uses a particle swarm optimization algorithm with:
 
 ## Data Sources
 
-- **Road Network**: OpenStreetMap (via OSMnx)
-- **Flood Data**: Cavite Flood Maps (shapefile format)
-- **Delivery Nodes**: Based on barangay locations in Cavite
+- **Road Network**: OpenStreetMap (via OSMnx) — drivable street network
+- **Flood Data**: UP NOAH 100-year return period flood hazard maps (shapefile format)
+- **Delivery Nodes**: Barangay locations in Bacoor, Cavite City, Kawit, Noveleta, Rosario
 
 ## Development
 
