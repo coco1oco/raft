@@ -26,16 +26,17 @@ The DMO-PSO algorithm solves the multi-objective relief delivery routing problem
    - Minimizing f2 penalizes late arrival to high-urgency communities
 
 **Constraints:**
-- **Vehicle wading depth limits:** Edges where flood depth W_e > W_max are pruned (cost = ∞)
-  - Class A (Light Commercial Vans): W_max = 0.30 m
-  - Class B (Medium 4×4 Support Trucks): W_max = 0.60 m
-  - Class C (Heavy Utility Trucks): W_max = 1.00 m
+- **Vehicle wading depth limits:** Edges where flood depth W_e > W_max or manual roadblock M_e = 1 are classified as impassable (cost = ∞, τ_e = ∞).
+  - **Class A (Light Commercial Vans):** W_max = 0.30 m (traverses unflooded roads only; blocked by Low, Medium, and High Hazard)
+  - **Class B (Medium 4×4 Support Trucks):** W_max = 0.60 m (traverses unflooded and Low Hazard [W_e = 0.50 m] roads; blocked by Medium and High Hazard)
+  - **Class C (Heavy Utility Trucks):** W_max = 1.00 m (traverses unflooded, Low Hazard, and Medium Hazard [W_e = 1.00 m] roads; blocked by High Hazard [W_e = 1.50 m])
+- **Hydrodynamic speed attenuation:** Across passable inundated edges (0 ≤ W_e ≤ W_max), speed is reduced via v_e = v_0 · (1 - α · W_e / W_max) where α = 0.50.
 - **Manual dispatcher override:** Edges flagged M_e = 1 are also pruned
 
 **Pareto Dominance (dual minimization):**
 Solution A dominates B (A ≺ B) iff:
-- f1(A) ≤ f1(B) AND f2(A) ≤ f2(B)
-- with at least one strict inequality
+- f̃1(A) ≤ f̃1(B) AND f̃2(A) ≤ f̃2(B)
+- with at least one strict inequality, where f̃_m(π) = f_m(π) + P_hard · Ω(π)
 
 ### Particle Representation
 
@@ -64,7 +65,7 @@ Where:
 | inertia_weight (w) | 0.7 | Particle momentum (scales prior velocity) |
 | cognitive_coef (c₁) | 1.5 | Personal best influence |
 | social_coef (c₂) | 1.5 | Global best influence |
-| max_iterations | 100 | Termination condition |
+| max_iterations | 200 | Termination condition |
 | mutation_rate | 0.1 | Diversity preservation (random swap probability) |
 | archive_capacity | 100 | Maximum external archive size |
 
@@ -73,11 +74,12 @@ Where:
 Non-dominated solutions are maintained in an external archive with:
 - **Crowding distance calculation** for diversity preservation
 - **Adaptive archive pruning** when capacity is reached (remove most crowded)
-- **Leader selection (gBest):** Selected from the archive (e.g., tournament selection biased by crowding distance)
+- **Leader selection (gBest):** Selected from the archive via binary tournament selection biased by crowding distance
 
 ### Baseline Comparisons
 
 The DMO-PSO is validated against:
-1. **Brute-force exhaustive search** (exact ground truth, feasible for toy problem)
-2. **GNN-Distance:** Greedy nearest-neighbor minimizing d(curr, next)
-3. **GNN-Urgency:** Greedy nearest-neighbor minimizing d(curr, next) / U(next)
+1. **Brute-force exhaustive search** (exact ground truth, verified for small benchmarks n = 6 to 10)
+2. **Flood-Constrained GNN (C-GNN-Distance & C-GNN-Urgency):** Greedy nearest-neighbor running over the same flood-pruned shortest-path graph to evaluate combinatorial solution quality on f₁ and f₂
+3. **Unconstrained Nominal GNN (U-GNN-Distance & U-GNN-Urgency):** Greedy nearest-neighbor running over nominal dry-pavement distances to evaluate Constraint Satisfaction Rate (CSR) under active flood layers
+

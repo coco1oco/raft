@@ -35,7 +35,7 @@ from typing import List, NamedTuple, Tuple
 NODE_LABELS = {
     0: "Depot (Hub)",
     1: "Barangay Salinas",
-    2: "Barangay Julugan",
+    2: "Barangay Tejeros Convention",
     3: "Barangay San Agustin",
     4: "Barangay Toclong",
     5: "Barangay Magdalo",
@@ -49,12 +49,12 @@ NODE_LABELS = {
 # 4 = High (vulnerable elderly/infant population)
 # 5 = Critical (flooded, stranded families, emergency medical supplies)
 URGENCY = {
-    1: 5,   # Salinas     - flooded, critical medical supplies (Critical)
-    2: 1,   # Julugan     - routine food packs (Low)
-    3: 4,   # San Agustin - vulnerable elderly population (High)
-    4: 3,   # Toclong     - moderate damage, shelter kits (Significant)
-    5: 5,   # Magdalo     - stranded families (Critical)
-    6: 2,   # Recodo      - potable water replenishment (Moderate)
+    1: 5,   # Salinas            - flooded, critical medical supplies (Critical)
+    2: 1,   # Tejeros Convention - routine food packs (Low)
+    3: 4,   # San Agustin        - vulnerable elderly population (High)
+    4: 3,   # Toclong            - moderate damage, shelter kits (Significant)
+    5: 5,   # Magdalo            - stranded families (Critical)
+    6: 2,   # Recodo             - potable water replenishment (Moderate)
 }
 
 # Symmetric road network distance matrix in km (0 = depot)
