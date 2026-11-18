@@ -1,0 +1,10 @@
+{
+  "description": "Plan and compare flood-safe relief routes across Coastal Cavite, helping emergency responders prioritize evacuation shelters and dispatch vehicles around blocked roads.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
